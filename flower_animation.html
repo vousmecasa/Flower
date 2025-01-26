@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Flower Animation</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f8ff;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="flowerCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('flowerCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const petalCount = 8;
+        const petalLength = 100;
+        const petalWidth = 30;
+
+        // Draw the flower
+        function drawFlower() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas each frame
+
+            ctx.fillStyle = 'pink';  // Set the color of the petals
+            ctx.strokeStyle = 'red'; // Set the border color of the petals
+            ctx.lineWidth = 3;
+
+            for (let i = 0; i < petalCount; i++) {
+                const angle = (i * 2 * Math.PI) / petalCount;  // Angle of each petal
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(angle);
+                
+                // Draw a petal
+                ctx.beginPath();
+                ctx.ellipse(petalLength, 0, petalWidth, petalLength, 0, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.stroke();
+                
+                ctx.restore();
+            }
+
+            // Draw the flower center
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 30, 0, 2 * Math.PI); // Draw a circle at the center
+            ctx.fillStyle = 'yellow';
+            ctx.fill();
+            ctx.strokeStyle = 'orange';
+            ctx.stroke();
+        }
+
+        // Animate the flower
+        let angleOffset = 0;
+        function animate() {
+            drawFlower();
+            angleOffset += 0.01;
+            requestAnimationFrame(animate); // Keep animating
+        }
+
+        animate(); // Start animation
+    </script>
+</body>
+</html>
